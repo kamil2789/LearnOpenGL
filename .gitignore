@@ -34,3 +34,9 @@
 
 # Build
 build
+.vscode
+
+#externals
+external/glad/*
+external/glfw/*
+external/GTest/*
