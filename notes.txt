@@ -1,0 +1,10 @@
+1. Everything in OpenGL is in 3D space
+2. What is GLFW? Graphic Library Framework. It provides programmers with the ability to create and manage windows and OpenGL contexts, as well as handle joystick, keyboard and mouse input.
+3. GLAD - Since there are many different versions of
+OpenGL drivers, the location of most of its functions is not known at compile-time and needs to be
+queried at run-time
+4. Always first include GLAD because this lib create handlers to openGL functions
+5. Graphic pipeline in openGL has 6 steps. All of these steps are highly specialized (they have one specific function) and can easily be executed in parallel.
+6. Vertex Data[] -> 1. Vertex Shader -> 2. Shape Assemply -> 3. Geometry Shader -> 4. Rasterization -> 5. Fragment Shader -> 6. Test and Blending
+7. Clipping is a stage in the graphics pipeline that determines which primitives to discard and which ones to pass through to the next stag
+8. Normalized device coordinates: -1 to 1

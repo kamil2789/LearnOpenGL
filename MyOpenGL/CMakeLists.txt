@@ -9,15 +9,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(${PROJECT_NAME} 
     src/Main.cpp
+    src/OpenGLRuntimeError.cpp
+    src/ConfigOpenGL.cpp
     ${CMAKE_SOURCE_DIR}/external/glad/src/glad.c
 
 )
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/external/glfw/lib/libglfw3.a)
-target_link_libraries(${PROJECT_NAME} opengl32.lib)
+target_link_libraries(${PROJECT_NAME} libopengl32.a)
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
-    ${CMAKE_SOURCE_DIR}/src/include
+    ${PROJECT_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/external/glfw/include
     ${CMAKE_SOURCE_DIR}/external/glad/include
 )
