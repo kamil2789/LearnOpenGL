@@ -8,3 +8,5 @@ queried at run-time
 6. Vertex Data[] -> 1. Vertex Shader -> 2. Shape Assemply -> 3. Geometry Shader -> 4. Rasterization -> 5. Fragment Shader -> 6. Test and Blending
 7. Clipping is a stage in the graphics pipeline that determines which primitives to discard and which ones to pass through to the next stag
 8. Normalized device coordinates: -1 to 1
+9.  Sending data to the graphics card from the CPU is relatively slow
+10.  OpenGL allows us to bind to several buffers at once as long as they have a different buffer type

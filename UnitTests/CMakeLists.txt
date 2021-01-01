@@ -7,12 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(${PROJECT_NAME} 
     src/MainUT.cpp 
-    #${CMAKE_SOURCE_DIR}/src/xxx.cpp
+    src/FileReaderTest.cpp
+    ${CMAKE_SOURCE_DIR}/MyOpenGL/src/FileReader.cpp
 )
 
 target_link_libraries(UnitTests ${CMAKE_SOURCE_DIR}/external/gtest/lib/libgtest.a)
 
 target_include_directories(UnitTests PUBLIC 
+    ${PROJECT_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/external/gtest/include
-    ${CMAKE_SOURCE_DIR}/src/include
+    ${CMAKE_SOURCE_DIR}/MyOpenGL/include
 )

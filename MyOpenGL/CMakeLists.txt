@@ -5,14 +5,15 @@ project(MyOpenGL VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
- set (CMAKE_CXX_FLAGS "-O0 -Wall")
+set (CMAKE_CXX_FLAGS "-O0 -Wall")
 
 add_executable(${PROJECT_NAME} 
     src/Main.cpp
     src/OpenGLRuntimeError.cpp
     src/ConfigOpenGL.cpp
+    src/FileReader.cpp
+    src/ShaderProgram.cpp
     ${CMAKE_SOURCE_DIR}/external/glad/src/glad.c
-
 )
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_SOURCE_DIR}/external/glfw/lib/libglfw3.a)
