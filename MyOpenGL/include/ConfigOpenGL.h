@@ -8,6 +8,7 @@ class ConfigOpenGL
 {
 public:
     ConfigOpenGL(unsigned int windowWidth, unsigned int windowHeight, std::string windowName);
+    ~ConfigOpenGL();
     ConfigOpenGL(const ConfigOpenGL&) = delete;
     ConfigOpenGL& operator=(const ConfigOpenGL&) = delete;
 

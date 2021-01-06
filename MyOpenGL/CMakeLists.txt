@@ -13,6 +13,8 @@ add_executable(${PROJECT_NAME}
     src/ConfigOpenGL.cpp
     src/FileReader.cpp
     src/ShaderProgram.cpp
+    src/SimpleVertexArray.cpp
+    src/VertexBufferObject.cpp
     ${CMAKE_SOURCE_DIR}/external/glad/src/glad.c
 )
 
@@ -24,3 +26,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/external/glfw/include
     ${CMAKE_SOURCE_DIR}/external/glad/include
 )
+
+add_custom_command(TARGET MyOpenGL POST_BUILD
+    COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/post_build.py)

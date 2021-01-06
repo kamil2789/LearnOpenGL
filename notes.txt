@@ -10,3 +10,10 @@ queried at run-time
 8. Normalized device coordinates: -1 to 1
 9.  Sending data to the graphics card from the CPU is relatively slow
 10.  OpenGL allows us to bind to several buffers at once as long as they have a different buffer type
+11. In vertex shader each input variable is also known as a vertex attribute
+12. GLSL swizzling:
+vec2 someVec;
+vec4 differentVec = someVec.xyxx;
+vec3 anotherVec = differentVec.zyw;
+vec4 otherVec = someVec.xxxx + anotherVec.yxzy;
+13.

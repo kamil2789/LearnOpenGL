@@ -13,6 +13,11 @@ ConfigOpenGL::ConfigOpenGL(unsigned int windowWidth, unsigned int windowHeight, 
     windowName{windowName}
 {}
 
+ConfigOpenGL::~ConfigOpenGL()
+{
+    glfwTerminate();
+}
+
 bool ConfigOpenGL::initConfig()
 {
     if (isInitConfig)

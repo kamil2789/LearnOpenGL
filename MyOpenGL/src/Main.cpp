@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -6,51 +7,48 @@
 #include "ShaderProgram.h"
 #include "FileReader.h"
 #include "OpenGLRuntimeError.h"
+#include "SimpleVertexArray.h"
+#include "VertexBufferObject.h"
 
 void processInput(GLFWwindow *window);
 
-float vertices[] = {
+std::vector<float> vertices = {
 -0.5f, -0.5f, 0.0f,
 0.5f, -0.5f, 0.0f,
 0.0f, 0.5f, 0.0f
 };
 
-const std::string simpleFragmentShader{"../../MyOpenGL/Shaders/FragmentShader/SimpleFragment.frag"};
-const std::string simpleVertexShader{"../../MyOpenGL/Shaders/VertexShaders/SimpleVertex.vert"};
+std::vector<float> vertices2 = {
+1.0f, 1.0f, 0.0f,
+0.0f, 1.0f, 0.0f,
+1.0f, 0.7f, 0.0f
+};
+
+const std::string simpleFragmentShader{"Shaders/FragmentShader/GradientTriangle.frag"};
+const std::string simpleVertexShader{"Shaders/VertexShaders/SimpleVertex.vert"};
 
 int main()
 {
     ConfigOpenGL configOpenGL{800, 600, "HelloWorld"};
     configOpenGL.initConfig();
 
-    ShaderProgram triangle{};
+    ShaderProgram blueTriangle{};
     try
     {
-        triangle.buildShaderProgram(FileReader::read(simpleVertexShader), FileReader::read(simpleFragmentShader));
+        blueTriangle.buildShaderProgram(FileReader::read(simpleVertexShader), FileReader::read(simpleFragmentShader));
     }
     catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
     }
 
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    SimpleVertexArray triangleOne{std::make_unique<VertexBufferObject>(vertices)};
+    SimpleVertexArray triangleTwo{std::make_unique<VertexBufferObject>(vertices2)};
+    triangleOne.bindBufferToVertexArray();
+    triangleTwo.bindBufferToVertexArray();
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0); 
+    float color = 0.0f;
+    bool isRising = true;
 
     while (!glfwWindowShouldClose(configOpenGL.getGLFWwindow()))
     {
@@ -58,17 +56,38 @@ int main()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(triangle.getShaderProgramID());
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+        glUseProgram(blueTriangle.getShaderProgramID());
+        int vertexColorLocation = glGetUniformLocation(blueTriangle.getShaderProgramID(), "ourColor");
+        glUniform4f(vertexColorLocation, 0.0f, color, 0.0f, 1.0f);
+
+
+        glBindVertexArray(triangleOne.getVAO());
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        glBindVertexArray(triangleTwo.getVAO());
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(configOpenGL.getGLFWwindow());
         glfwPollEvents();
+
+        if (isRising)
+        {
+            color += 0.01;
+            if (color > 0.98f)
+            {
+                isRising = false;
+            }
+        }
+        else
+        {
+            color -= 0.01;
+            if (color < 0.02f)
+            {
+                isRising = true;
+            }
+        }
     }
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glfwTerminate();
     return 0;
 }
 

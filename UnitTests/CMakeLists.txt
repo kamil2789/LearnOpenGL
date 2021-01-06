@@ -18,3 +18,6 @@ target_include_directories(UnitTests PUBLIC
     ${CMAKE_SOURCE_DIR}/external/gtest/include
     ${CMAKE_SOURCE_DIR}/MyOpenGL/include
 )
+
+add_custom_command(TARGET UnitTests POST_BUILD
+    COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/post_build.py)
