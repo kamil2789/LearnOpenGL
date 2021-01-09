@@ -32,3 +32,19 @@ void SimpleVertexArray::bindBufferToVertexArray()
 
     glBindVertexArray(0); 
 }
+
+void SimpleVertexArray::bindBufferToVertexArray(unsigned int layouts)
+{
+    glBindVertexArray(vertexArrayObject);
+
+    glBindBuffer(GL_ARRAY_BUFFER, vertexObject->getId());
+    glBufferData(GL_ARRAY_BUFFER, vertexObject->getSizeOfData(), vertexObject->getVerticesData(), GL_STATIC_DRAW);
+    for (int i = 0; i <= layouts; i++)
+    {
+        glVertexAttribPointer(i, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(3 * i * sizeof(float)));
+        glEnableVertexAttribArray(i);
+    }
+    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+
+    glBindVertexArray(0); 
+}

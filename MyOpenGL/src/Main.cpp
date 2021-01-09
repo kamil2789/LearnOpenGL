@@ -24,8 +24,14 @@ std::vector<float> vertices2 = {
 1.0f, 0.7f, 0.0f
 };
 
-const std::string simpleFragmentShader{"Shaders/FragmentShader/GradientTriangle.frag"};
-const std::string simpleVertexShader{"Shaders/VertexShaders/SimpleVertex.vert"};
+std::vector<float> verticesColors = {
+0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 
+-0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
+};
+
+const std::string simpleFragmentShader{"Shaders/FragmentShader/FragmentColor.frag"};
+const std::string simpleVertexShader{"Shaders/VertexShaders/VertexWithColors.vert"};
 
 int main()
 {
@@ -42,10 +48,10 @@ int main()
         std::cout << e.what() << std::endl;
     }
 
-    SimpleVertexArray triangleOne{std::make_unique<VertexBufferObject>(vertices)};
-    SimpleVertexArray triangleTwo{std::make_unique<VertexBufferObject>(vertices2)};
-    triangleOne.bindBufferToVertexArray();
-    triangleTwo.bindBufferToVertexArray();
+    SimpleVertexArray triangleOne{std::make_unique<VertexBufferObject>(verticesColors)};
+   // SimpleVertexArray triangleTwo{std::make_unique<VertexBufferObject>(vertices2)};
+    triangleOne.bindBufferToVertexArray(1);
+   // triangleTwo.bindBufferToVertexArray();
 
     float color = 0.0f;
     bool isRising = true;
@@ -57,19 +63,20 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(blueTriangle.getShaderProgramID());
-        int vertexColorLocation = glGetUniformLocation(blueTriangle.getShaderProgramID(), "ourColor");
-        glUniform4f(vertexColorLocation, 0.0f, color, 0.0f, 1.0f);
+        //int vertexColorLocation = glGetUniformLocation(blueTriangle.getShaderProgramID(), "ourColor");
+       // glUniform4f(vertexColorLocation, 0.0f, color, 0.0f, 1.0f);
 
 
         glBindVertexArray(triangleOne.getVAO());
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        glBindVertexArray(triangleTwo.getVAO());
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+       // glBindVertexArray(triangleTwo.getVAO());
+       // glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(configOpenGL.getGLFWwindow());
         glfwPollEvents();
 
+        /*
         if (isRising)
         {
             color += 0.01;
@@ -86,6 +93,7 @@ int main()
                 isRising = true;
             }
         }
+        */
     }
 
     return 0;
