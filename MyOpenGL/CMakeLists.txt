@@ -15,6 +15,7 @@ add_executable(${PROJECT_NAME}
     src/ShaderProgram.cpp
     src/SimpleVertexArray.cpp
     src/VertexBufferObject.cpp
+    src/ProgramExamples.cpp
     ${CMAKE_SOURCE_DIR}/external/glad/src/glad.c
 )
 
